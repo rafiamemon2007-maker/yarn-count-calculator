@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Textile Yarn Count Converter</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #172b3a;
+}
+
+header {
+    background: #10283f;
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+}
+
+header h1 {
+    margin: 0 0 10px;
+}
+
+header p {
+    color: #cbdde7;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 25px auto;
+    padding: 0 15px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px #10283f12;
+}
+
+h2 {
+    color: #087f79;
+    font-size: 20px;
+}
+
+label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 16px;
+    background: white;
+}
+
+.result {
+    background: #e6f7f4;
+    border-left: 4px solid #13a89e;
+    padding: 14px;
+    margin-top: 15px;
+    border-radius: 6px;
+    overflow-wrap: anywhere;
+}
+
+.result strong {
+    font-size: 21px;
+    color: #10283f;
+}
+
+button {
+    padding: 10px 14px;
+    margin: 12px 5px 0 0;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.primary {
+    background: #13a89e;
+    color: white;
+}
+
+.secondary {
+    background: #e2e8f0;
+    color: #10283f;
+}
+
+.formula {
+    color: #526575;
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #647786;
+}
+
+@media (max-width: 650px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Textile Yarn Count Converter</h1>
+    <p>Professional Yarn Calculation Tool</p>
+</header>
+
+<main class="container">
+<div class="grid">
+
+    <!-- Ne to Tex -->
+    <section class="card">
+        <h2>1. Ne to Tex Converter</h2>
+
+        <label for="ne">Enter Yarn Count (Ne)</label>
+        <input id="ne" type="number" min="0"
+               step="any" placeholder="Example: 30">
+
+        <div class="result" aria-live="polite">
+            <div>Converted Result</div>
+            <strong id="neResult">— Tex</strong>
+            <p id="neSteps">Enter a positive number.</p>
+        </div>
+
+        <div class="formula">
+            Formula: Tex = 590.5 ÷ Ne
+        </div>
+
+        <button class="secondary" onclick="resetOne('ne')">
+            Reset
+        </button>
+        <button class="primary" onclick="copyText('neResult','neSteps')">
+            Copy Result
+        </button>
+    </section>
+
+    <!-- Tex to Denier -->
+    <section class="card">
+        <h2>2. Tex to Denier Converter</h2>
+
+        <label for="tex">Enter Yarn Count (Tex)</label>
+        <input id="tex" type="number" min="0"
+               step="any" placeholder="Example: 20">
+
+        <div class="result" aria-live="polite">
+            <div>Converted Result</div>
+            <strong id="texResult">— Denier</strong>
+            <p id="texSteps">Enter a positive number.</p>
+        </div>
+
+        <div class="formula">
+            Formula: Denier = Tex × 9
+        </div>
+
+        <button class="secondary" onclick="resetOne('tex')">
+            Reset
+        </button>
+        <button class="primary" onclick="copyText('texResult','texSteps')">
+            Copy Result
+        </button>
+    </section>
+
+    <!-- Denier to Tex -->
+    <section class="card">
+        <h2>3. Denier to Tex Converter</h2>
+
+        <label for="denier">Enter Yarn Count (Denier)</label>
+        <input id="denier" type="number" min="0"
+               step="any" placeholder="Example: 150">
+
+        <div class="result" aria-live="polite">
+            <div>Converted Result</div>
+            <strong id="denierResult">— Tex</strong>
+            <p id="denierSteps">Enter a positive number.</p>
+        </div>
+
+        <div class="formula">
+            Formula: Tex = Denier ÷ 9
+        </div>
+
+        <button class="secondary" onclick="resetOne('denier')">
+            Reset
+        </button>
+        <button class="primary" onclick="copyText('denierResult','denierSteps')">
+            Copy Result
+        </button>
+    </section>
+
+    <!-- Yarn Comparison -->
+    <section class="card">
+        <h2>4. Yarn Count Comparison</h2>
+
+        <label for="countA">Yarn A</label>
+        <input id="countA" type="number" min="0"
+               step="any" placeholder="Example: 30">
+
+        <label for="unitA">Yarn A Unit</label>
+        <select id="unitA">
+            <option value="Ne">Ne</option>
+            <option value="Tex">Tex</option>
+            <option value="Denier">Denier</option>
+        </select>
+
+        <label for="countB">Yarn B</label>
+        <input id="countB" type="number" min="0"
+               step="any" placeholder="Example: 20">
+
+        <label for="unitB">Yarn B Unit</label>
+        <select id="unitB">
+            <option value="Ne">Ne</option>
+            <option value="Tex">Tex</option>
+            <option value="Denier">Denier</option>
+        </select>
+
+        <div class="result" aria-live="polite">
+            <strong id="comparison">Comparison Result</strong>
+            <p id="comparisonSteps">
+                Enter both counts to compare the yarns.
+            </p>
+        </div>
+
+        <div class="formula">
+            Compare both yarns after converting to Tex.
+        </div>
+
+        <button class="secondary" onclick="resetComparison()">
+            Reset
+        </button>
+        <button class="primary" onclick="copyText('comparison','comparisonSteps')">
+            Copy Result
+        </button>
+    </section>
+
+    <!-- Educational Section -->
+    <section class="card full">
+        <h2>Understanding Yarn Count</h2>
+
+        <p><b>Ne:</b> English cotton count. Higher Ne means finer yarn.</p>
+
+        <p><b>Tex:</b> Grams per 1,000 metres. Higher Tex means coarser yarn.</p>
+
+        <p><b>Denier:</b> Grams per 9,000 metres. Higher Denier means coarser yarn.</p>
+
+        <p class="formula">
+            Example: Ne 30 ≈ 19.6833 Tex.
+            20 Tex = 180 Denier.
+            150 Denier ≈ 16.6667 Tex.
+        </p>
+    </section>
+
+</div>
+</main>
+
+<footer>
+    Textile Yarn Count Converter | HTML, CSS & JavaScript
+</footer>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+function format(number) {
+    return Number(number).toLocaleString("en-US", {
+        maximumFractionDigits: 4,
+        useGrouping: false
+    });
+}
+
+function valid(value) {
+    return value.trim() !== "" &&
+           Number.isFinite(Number(value)) &&
+           Number(value) > 0;
+}
+
+function updateConversion(inputId, resultId, stepsId,
+                          outputUnit, calculate, formula) {
+    const input = $(inputId);
+
+    function update() {
+        const value = input.value;
+
+        if (!valid(value)) {
+            $(resultId).textContent =
+                value.trim() === "" ? "— " + outputUnit : "Invalid input";
+
+            $(stepsId).textContent =
+                value.trim() === ""
+                ? "Enter a positive number."
+                : "Enter a number greater than zero.";
+            return;
+        }
+
+        const n = Number(value);
+        const answer = calculate(n);
+
+        $(resultId).textContent =
+            format(answer) + " " + outputUnit;
+
+        $(stepsId).textContent =
+            formula(n, answer);
+    }
+
+    input.addEventListener("input", update);
+    update();
+}
+
+// Ne to Tex
+updateConversion(
+    "ne", "neResult", "neSteps", "Tex",
+    n => 590.5 / n,
+    (n, r) => `Tex = 590.5 ÷ ${format(n)} = ${format(r)}`
+);
+
+// Tex to Denier
+updateConversion(
+    "tex", "texResult", "texSteps", "Denier",
+    n => n * 9,
+    (n, r) => `Denier = ${format(n)} × 9 = ${format(r)}`
+);
+
+// Denier to Tex
+updateConversion(
+    "denier", "denierResult", "denierSteps", "Tex",
+    n => n / 9,
+    (n, r) => `Tex = ${format(n)} ÷ 9 = ${format(r)}`
+);
+
+// Convert any count to Tex for comparison
+function toTex(value, unit) {
+    if (unit === "Ne") return 590.5 / value;
+    if (unit === "Denier") return value / 9;
+    return value;
+}
+
+function compareYarns() {
+    const aRaw = $("countA").value;
+    const bRaw = $("countB").value;
+
+    if (!valid(aRaw) || !valid(bRaw)) {
+        $("comparison").textContent = "Invalid or missing count";
+        $("comparisonSteps").textContent =
+            "Enter two positive yarn counts.";
+        return;
+    }
+
+    const a = toTex(Number(aRaw), $("unitA").value);
+    const b = toTex(Number(bRaw), $("unitB").value);
+    const difference = Math.abs(a - b);
+
+    $("comparisonSteps").textContent =
+        `Yarn A = ${format(a)} Tex; Yarn B = ${format(b)} Tex. ` +
+        `Difference = ${format(difference)} Tex.`;
+
+    const tolerance = Math.max(a, b, 1) * 1e-10;
+
+    if (Math.abs(a - b) <= tolerance) {
+        $("comparison").textContent =
+            "Both yarns have equivalent linear density";
+    } else if (a < b) {
+        $("comparison").textContent =
+            "Yarn A is finer; Yarn B is coarser";
+    } else {
+        $("comparison").textContent =
+            "Yarn B is finer; Yarn A is coarser";
+    }
+}
+
+["countA", "countB", "unitA", "unitB"].forEach(id => {
+    $(id).addEventListener("input", compareYarns);
+    $(id).addEventListener("change", compareYarns);
+});
+
+function resetOne(id) {
+    $(id).value = "";
+    $(id).dispatchEvent(new Event("input"));
+}
+
+function resetComparison() {
+    $("countA").value = "";
+    $("countB").value = "";
+    $("unitA").value = "Ne";
+    $("unitB").value = "Ne";
+    compareYarns();
+}
+
+async function copyText(resultId, stepsId) {
+    const text = $(resultId).textContent +
+                 "\n" + $(stepsId).textContent;
+
+    try {
+        await navigator.clipboard.writeText(text);
+        alert("Result copied successfully!");
+    } catch (error) {
+        window.prompt("Copy your result:", text);
+    }
+}
+
+compareYarns();
+</script>
+
+</body>
+</html>
